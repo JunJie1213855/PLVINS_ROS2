@@ -1,0 +1,11 @@
+build/
+install/
+log/
+Trajactory/
+output/
+results/
+.git/
+*.txt
+*.tum
+*.zip
+*.png

@@ -44,6 +44,35 @@ ros2 launch plvins_estimator plvins.launch.py \
     vins_path:=/home/ros/rosws/PL_VINS_ros2_ws/src
 ```
 
+### 3.4 模拟数据集（绕过前端，仅测试 VIO 后端）
+
+模拟数据集提供**预计算的无噪声特征**，直接测试 IMU 预积分 + 滑窗优化 + 边缘化，无需真实图像或特征提取。
+
+数据位于 `src/config/simdata/data/`：
+- `imu_pose.txt` — 4001 条 IMU 数据（200Hz）
+- `cam_pose.txt` — 600 帧相机位姿
+- `keyframe/all_points_*.txt` — 每帧预计算的点观测
+- `keyframe/all_lines_*.txt` — 每帧预计算的线观测
+
+```bash
+# 终端1：发布 IMU（200Hz）
+ros2 run sim_data_pub pub_imu --ros-args \
+  -p sim_file_path:="/home/ros/rosws/PL_VINS_ros2_ws/src/config/simdata/data/"
+
+# 终端2：发布预计算特征（30Hz）→ topic 重映射到 estimator 订阅的 topic
+ros2 run sim_data_pub pub_feature --ros-args \
+  -p sim_file_path:="/home/ros/rosws/PL_VINS_ros2_ws/src/config/simdata/data/" \
+  -r /feature_tracker/feature:=/feature \
+  -r /linefeature_tracker/linefeature:=/linefeature
+
+# 终端3：VIO 估计器（使用 simdata 配置）
+ros2 run plvins_estimator plvins_estimator --ros-args \
+  -p config_file:="/home/ros/rosws/PL_VINS_ros2_ws/src/config/simdata/simdata_config.yaml" \
+  -p vins_folder:="/home/ros/rosws/PL_VINS_ros2_ws/src"
+```
+
+模拟配置特点：理想相机 `fx=fy=1`（归一化坐标），无畸变，IMU 噪声参数宽松。
+
 ## 4. 轨迹评估
 
 运行结束后，轨迹文件保存在 `Trajactory/` 目录下：

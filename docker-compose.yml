@@ -1,0 +1,29 @@
+# ============================================================
+# PL-VINS Docker Compose
+#
+# 用法:
+#   docker compose build     # 构建镜像
+#   docker compose up -d     # 后台运行
+#   docker compose run plvins bash   # 进入容器
+# ============================================================
+
+services:
+  plvins:
+    build: .
+    image: plvins:humble
+    container_name: plvins
+    network_mode: host
+    stdin_open: true
+    tty: true
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      # X11 显示 (RViz)
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      # 数据集（按需修改）
+      - ${HOME}/dataset:/home/ros/dataset:ro
+      # 输出轨迹和结果
+      - ./Trajactory:/home/ros/plvins_ws/Trajactory
+      - ./results:/home/ros/plvins_ws/results
+    command: bash
