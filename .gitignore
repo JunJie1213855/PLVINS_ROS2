@@ -1,0 +1,54 @@
+# ============================================================
+# PL-VINS ROS2 Workspace - .gitignore
+# 仅保留：源代码(src)、配置、文档、脚本
+# 忽略：构建产物、运行结果、缓存、IDE配置
+# ============================================================
+
+# --- colcon 构建产物 ---
+/build/
+/install/
+/log/
+
+# --- 运行时输出 ---
+/Trajactory/
+/output/
+/results/
+
+# --- 轨迹等生成文件（根目录） ---
+/*.txt
+/*.tum
+/*.zip
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# --- C/C++ 编译中间文件 ---
+*.o
+*.obj
+*.a
+*.so
+*.dylib
+
+# --- IDE / 编辑器 ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cache/
+
+# --- 系统文件 ---
+.DS_Store
+Thumbs.db
+core
+core.*
+
+# --- ROS2 bag ---
+*.db3
+*.mcap
+
+# --- evo 评估结果 ---
+*.zip
+*.png

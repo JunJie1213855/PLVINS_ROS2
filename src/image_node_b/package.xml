@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>image_node_b</name>
+  <version>0.0.0</version>
+  <description>Image processing node (ROS2 Humble)</description>
+  <maintainer email="youxiaodan@bozhon.com">yxd</maintainer>
+  <license>TODO</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>cv_bridge</depend>
+  <depend>message_filters</depend>
+  <depend>camera_model</depend>
+  <depend>plvins_interfaces</depend>
+  <depend>OpenCV</depend>
+  <depend>eigen</depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>
